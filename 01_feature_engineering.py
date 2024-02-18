@@ -55,8 +55,8 @@ def add_repair_age_col(df):
 add_repair_age_col(df)
 
 
-# Remove "Реконстр", "Ремонт" cols
-df.drop(["Реконстр", "Ремонт"], axis=1, inplace=True)
+# Remove unneeded columns
+df.drop(["Будів", "Обстеж", "Реконстр", "Ремонт"], axis=1, inplace=True)
 
 
 # Replace "II категорія" to "2", etc.
@@ -75,7 +75,7 @@ print(df.info())
 
 
 # Rearrange columns (target feature in the end)
-df = df[["Будів", "Обстеж", "Довжина", "Категорія", "Обл", "ВікБуд", "ВікРем", "Стан"]]
+df = df[["Довжина", "Категорія", "Обл", "ВікБуд", "ВікРем", "Стан"]]
 
 
 # Save clean dataset to a new file
