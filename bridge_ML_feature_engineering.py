@@ -73,5 +73,10 @@ df.replace({"Категорія": mapping}, inplace=True)
 
 print(df.info())
 
+
+# Rearrange columns (target feature in the end)
+df = df[["Будів", "Обстеж", "Довжина", "Категорія", "Обл", "ВікБуд", "ВікРем", "Стан"]]
+
+
 # Save clean dataset to a new file
 df.to_csv("AESUM_clean.csv", index=False)
