@@ -7,8 +7,6 @@ df = pd.read_csv("AESUM.csv")
 # print()
 
 
-# *** 1. Feature Engineering ***
-
 # Remove rows with not concrete bridges
 def remove_not_concrete(df):
 	for x in df.index:
