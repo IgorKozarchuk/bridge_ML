@@ -23,10 +23,16 @@ features = ["Будів", "Реконстр", "Ремонт", "Обстеж", "�
 df = df[features]
 
 
-# Remove rows with null selected features
+# Remove rows with NaN in selected columns
 selected = ["Будів", "Обстеж", "Довжина", "Категорія", "Обл", "Стан"]
 
 df.dropna(subset=selected, inplace=True)
+print(df.info())
+print()
+
+
+# Remove rows with 0 in selected columns
+df = df.loc[(df[selected] != 0).all(axis=1)]
 print(df.info())
 print()
 
@@ -49,8 +55,12 @@ def add_repair_age_col(df):
 		if pd.isna(df.at[x, "Реконстр"]) and pd.isna(df.at[x, "Ремонт"]):
 			df.at[x, "ВікРем"] = df.at[x, "ВікБуд"]
 		else:
+			survey_year = df.at[x, "Обстеж"]
 			repair_year = max(df.at[x, "Реконстр"], df.at[x, "Ремонт"])
-			df.at[x, "ВікРем"] = abs(df.at[x, "Обстеж"] - repair_year)
+			if repair_year <= survey_year:
+				df.at[x, "ВікРем"] = survey_year - repair_year
+			else:
+				df.at[x, "ВікРем"] = df.at[x, "ВікБуд"]
 
 add_repair_age_col(df)
 
@@ -79,4 +89,4 @@ df = df[["Довжина", "Категорія", "Обл", "ВікБуд", "Ві
 
 
 # Save clean dataset to a new file
-df.to_csv("AESUM_clean.csv", index=False)
+df.to_csv("AESUM_clean.csv", encoding="utf-8-sig", index=False)
