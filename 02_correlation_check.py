@@ -15,7 +15,7 @@ print()
 
 plt.figure(figsize=(8, 6))
 plt.title("Correlation matrix")
-sns.heatmap(df.corr())
+sns.heatmap(df.corr(), annot=True, cmap="magma_r")
 plt.show()
 
 # Print Pearson's correlation (sorted, not taking into account sign) - same result as df.corr()
