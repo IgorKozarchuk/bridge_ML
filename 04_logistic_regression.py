@@ -13,6 +13,7 @@ df = pd.read_csv("AESUM_clean.csv")
 
 # Features
 X = df[["Довжина", "Категорія", "Обл", "ВікБуд"]]
+# X = df[["Довжина", "Категорія", "Обл", "ВікРем"]]
 # print(X.head())
 # Target
 y = df[["Стан"]]
