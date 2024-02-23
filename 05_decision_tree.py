@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn import tree
-from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay, roc_auc_score
 
 
 df = pd.read_csv("AESUM_clean.csv")
@@ -22,7 +22,7 @@ dtree_model = tree.DecisionTreeClassifier()
 # Train the model
 dtree_model.fit(X_train, y_train)
 
-# Score 
+# Score
 print(dtree_model.score(X_test, y_test))
 print()
 
@@ -45,3 +45,8 @@ disp = ConfusionMatrixDisplay(confusion_matrix=c_matrix, display_labels=dtree_mo
 disp.plot(cmap="magma_r")
 disp.ax_.set_title("Confusion matrix")
 plt.show()
+
+# ROC AUC - Area Under the Receiver Operating Characteristic Curve
+dtree_probs = dtree_model.predict_proba(X_test)
+dtree_roc_auc = roc_auc_score(y_test, dtree_probs, multi_class="ovr")
+print("ROC AUC score:", dtree_roc_auc)

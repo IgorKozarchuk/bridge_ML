@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay, roc_auc_score
 
 
 df = pd.read_csv("AESUM_clean.csv")
@@ -28,7 +28,7 @@ logistic_model = LogisticRegression(max_iter=1000)
 # Train the model
 logistic_model.fit(X_train, y_train.values.ravel())
 
-# Score 
+# Score
 print(logistic_model.score(X_test, y_test))
 print()
 
@@ -42,6 +42,7 @@ print()
 
 # Confusion matrix
 c_matrix = confusion_matrix(y_test, y_pred)
+
 print("Confusion matrix:")
 print(c_matrix)
 print()
@@ -54,3 +55,9 @@ disp = ConfusionMatrixDisplay(confusion_matrix=c_matrix, display_labels=logistic
 disp.plot(cmap="magma_r")
 disp.ax_.set_title("Confusion matrix")
 plt.show()
+
+# ROC AUC - Area Under the Receiver Operating Characteristic Curve
+logr_probs = logistic_model.predict_proba(X_test)
+logr_roc_auc = roc_auc_score(y_test, logr_probs, multi_class="ovr")
+
+print("ROC AUC score:", logr_roc_auc)

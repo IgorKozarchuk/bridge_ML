@@ -28,7 +28,7 @@ gamma - {'scale', 'auto'} or float, default='scale'
 # Train
 SVC_model.fit(X_train, y_train.values.ravel())
 
-# Score 
+# Score
 print(SVC_model.score(X_test, y_test))
 print()
 
