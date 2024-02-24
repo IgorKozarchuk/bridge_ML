@@ -1,11 +1,15 @@
+""" Logistic regression """
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import joblib
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay, roc_auc_score
+from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay, roc_auc_score, roc_curve
 
 
+# Dataframe
 df = pd.read_csv("AESUM_clean.csv")
 # df = pd.read_csv("AESUM_stand.csv")
 # df = pd.read_csv("AESUM_norm.csv")
@@ -57,7 +61,21 @@ disp.ax_.set_title("Confusion matrix")
 plt.show()
 
 # ROC AUC - Area Under the Receiver Operating Characteristic Curve
-logr_probs = logistic_model.predict_proba(X_test)
-logr_roc_auc = roc_auc_score(y_test, logr_probs, multi_class="ovr")
-
+y_probs = logistic_model.predict_proba(X_test)
+logr_roc_auc = roc_auc_score(y_test, y_probs, multi_class="ovr")
 print("ROC AUC score:", logr_roc_auc)
+
+# plot AUC curve (fpr, tpr - false positive and true positive rates)
+# fpr, tpr, thresholds = roc_curve(y_test, y_probs) # !!! ValueError: multiclass format is not supported
+# plt.plot(fpr, tpr)
+# plt.title("Area under the ROC curve")
+# plt.show()
+
+# Export model
+# https://scikit-learn.org/stable/model_persistence.html
+# https://mljar.com/blog/save-load-scikit-learn-model/
+file_path = "models/logistic_model.joblib"
+# save model
+joblib.dump(logistic_model, file_path, compress=3)
+# load model
+loaded_model = joblib.load(file_path)

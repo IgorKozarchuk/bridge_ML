@@ -1,11 +1,14 @@
-# K nearest neighbors
+""" K nearest neighbors """
+
 import pandas as pd
 import matplotlib.pyplot as plt
+import joblib
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay, roc_auc_score, accuracy_score
+from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay, roc_auc_score, roc_curve, accuracy_score
 
 
+# Dataframe
 df = pd.read_csv("AESUM_clean.csv")
 # print(df.head())
 
@@ -73,7 +76,21 @@ disp.ax_.set_title("Confusion matrix")
 plt.show()
 
 # ROC AUC
-knn_probs = knn_model.predict_proba(X_test)
-knn_roc_auc = roc_auc_score(y_test, knn_probs, multi_class="ovr")
-
+y_probs = knn_model.predict_proba(X_test)
+knn_roc_auc = roc_auc_score(y_test, y_probs, multi_class="ovr")
 print("ROC AUC score:", knn_roc_auc)
+
+# plot AUC curve (fpr, tpr - false positive and true positive rates)
+# fpr, tpr, thresholds = roc_curve(y_test, y_probs) # !!! ValueError: multiclass format is not supported
+# plt.plot(fpr, tpr)
+# plt.title("Area under the ROC curve")
+# plt.show()
+
+# Export model
+# https://scikit-learn.org/stable/model_persistence.html
+# https://mljar.com/blog/save-load-scikit-learn-model/
+file_path = "models/kNN_model.joblib"
+# save model
+joblib.dump(knn_model, file_path, compress=3)
+# load model
+loaded_model = joblib.load(file_path)

@@ -1,11 +1,14 @@
-# Support Vector Machine
+""" Support Vector Machine """
+
 import pandas as pd
 import matplotlib.pyplot as plt
+import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
 
 
+# Dataframe
 df = pd.read_csv("AESUM_clean.csv")
 # print(df.head())
 
@@ -51,3 +54,12 @@ disp = ConfusionMatrixDisplay(confusion_matrix=c_matrix, display_labels=SVC_mode
 disp.plot(cmap="magma_r")
 disp.ax_.set_title("Confusion matrix")
 plt.show()
+
+# Export model
+# https://scikit-learn.org/stable/model_persistence.html
+# https://mljar.com/blog/save-load-scikit-learn-model/
+file_path = "models/SVM_model.joblib"
+# save model
+joblib.dump(SVC_model, file_path, compress=3)
+# load model
+loaded_model = joblib.load(file_path)
