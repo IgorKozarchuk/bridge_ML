@@ -29,6 +29,10 @@ print()
 # Predict
 y_pred = dtree_model.predict(X_test)
 
+# Plot tree
+tree.plot_tree(dtree_model, feature_names=X.columns)
+plt.show()
+
 # Metrics
 print("Classification report:")
 print(classification_report(y_test, y_pred))
