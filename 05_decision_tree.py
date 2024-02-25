@@ -59,7 +59,8 @@ y_probs = dtree_model.predict_proba(X_test)
 dtree_roc_auc = roc_auc_score(y_test, y_probs, multi_class="ovr")
 print("ROC AUC score:", dtree_roc_auc)
 
-# plot AUC curve (fpr, tpr - false positive and true positive rates)
+# Plot AUC curve (fpr, tpr - false positive and true positive rates)
+# (alternatively can use sklearn.metrics.RocCurveDisplay)
 # fpr, tpr, thresholds = roc_curve(y_test, y_probs) # !!! ValueError: multiclass format is not supported
 # plt.plot(fpr, tpr)
 # plt.title("Area under the ROC curve")
